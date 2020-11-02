@@ -63,7 +63,7 @@ async function demoInitialize(db) {
 // ============================================================================
 
 async function quickstartAddData(db) {
-  // [START add_lovelace]
+  // [START firestore_setup_dataset_pt1]
   const docRef = db.collection('users').doc('alovelace');
 
   await docRef.set({
@@ -71,9 +71,9 @@ async function quickstartAddData(db) {
     last: 'Lovelace',
     born: 1815
   });
-  // [END add_lovelace]
+  // [END firestore_setup_dataset_pt1]
 
-  // [START add_turing]
+  // [START firestore_setup_dataset_pt2]
   const aTuringRef = db.collection('users').doc('aturing');
 
   await aTuringRef.set({
@@ -82,7 +82,7 @@ async function quickstartAddData(db) {
     'last': 'Turing',
     'born': 1912
   });
-  // [END add_turing]
+  // [END firestore_setup_dataset_pt2]
 }
 
 async function quickstartQuery(db) {
@@ -96,12 +96,12 @@ async function quickstartQuery(db) {
 }
 
 async function quickstartListen(db) {
-  // [START quickstart_listen]
+  // [START firestore_setup_dataset_read]
   const snapshot = await db.collection('users').get();
   snapshot.forEach((doc) => {
     console.log(doc.id, '=>', doc.data());
   });
-  // [END quickstart_listen]
+  // [END firestore_setup_dataset_read]
 }
 
 // ============================================================================
@@ -109,24 +109,24 @@ async function quickstartListen(db) {
 // ============================================================================
 
 async function basicReferences(db) {
-  // [START doc_ref]
+  // [START firestore_data_reference_document]
   const alovelaceDocumentRef = db.collection('users').doc('alovelace');
-  // [END doc_ref]
+  // [END firestore_data_reference_document]
 
-  // [START collection_ref]
+  // [START firestore_data_reference_collection]
   const usersCollectionRef = db.collection('users');
-  // [END collection_ref]
+  // [END firestore_data_reference_collection]
 }
 
 async function advancedReferences(db) {
-  // [START doc_ref_alternate]
+  // [START firestore_data_reference_document_path]
   const alovelaceDocumentRef = db.doc('users/alovelace');
-  // [END doc_ref_alternate]
+  // [END firestore_data_reference_document_path]
 
-  // [START subcollection_ref]
+  // [START firestore_data_reference_subcollection]
   const messageRef = db.collection('rooms').doc('roomA')
     .collection('messages').doc('message1');
-  // [END subcollection_ref]
+  // [END firestore_data_reference_subcollection]
 }
 
 // ============================================================================
@@ -134,7 +134,7 @@ async function advancedReferences(db) {
 // ============================================================================
 
 async function setDocument(db) {
-  // [START set_document]
+  // [START firestore_data_set_from_map]
   const data = {
     name: 'Los Angeles',
     state: 'CA',
@@ -143,13 +143,13 @@ async function setDocument(db) {
 
   // Add a new document in collection "cities" with ID 'LA'
   const res = await db.collection('cities').doc('LA').set(data);
-  // [END set_document]
+  // [END firestore_data_set_from_map]
 
   console.log('Set: ', res);
 }
 
 async function dataTypes(db) {
-  // [START data_types]
+  // [START firestore_data_set_from_map_nested]
   const data = {
     stringExample: 'Hello, World!',
     booleanExample: true,
@@ -164,13 +164,13 @@ async function dataTypes(db) {
   };
 
   const res = await db.collection('data').doc('one').set(data);
-  // [END data_types]
+  // [END firestore_data_set_from_map_nested]
 
   console.log('Set: ', res);
 }
 
 async function addDocument(db) {
-  // [START add_document]
+  // [START firestore_data_set_id_random_collection]
   // Add a new document with a generated id.
   const res = await db.collection('cities').add({
     name: 'Tokyo',
@@ -178,7 +178,7 @@ async function addDocument(db) {
   });
 
   console.log('Added document with ID: ', res.id);
-  // [END add_document]
+  // [END firestore_data_set_id_random_collection]
 
   console.log('Add: ', res);
 }
@@ -186,36 +186,36 @@ async function addDocument(db) {
 async function addDocumentWithId(db) {
   const data = {foo: 'bar '};
 
-  // [START add_document_id]
+  // [START firestore_data_set_id_specified]
   await db.collection('cities').doc('new-city-id').set(data);
-  // [END add_document_id]
+  // [END firestore_data_set_id_specified]
 }
 
 async function addLater(db) {
-  // [START add_later]
+  // [START firestore_data_set_id_random_document_ref]
   const newCityRef = db.collection('cities').doc();
 
   // Later...
   const res = await newCityRef.set({
     // ...
   });
-  // [END add_later]
+  // [END firestore_data_set_id_random_document_ref]
   console.log('Add: ', res);
 }
 
 async function updateDocument(db) {
-  // [START update_document]
+  // [START firestore_data_set_field]
   const cityRef = db.collection('cities').doc('DC');
 
   // Set the 'capital' field of the city
   const res = await cityRef.update({capital: true});
-  // [END update_document]
+  // [END firestore_data_set_field]
 
   console.log('Update: ', res);
 }
 
 async function updateDocumentArray(db) {
-  // [START update_document_array]
+  // [START firestore_data_set_array_operations]
   const admin = require('firebase-admin');
   // ...
   const washingtonRef = db.collection('cities').doc('DC');
@@ -228,13 +228,13 @@ async function updateDocumentArray(db) {
   const removeRes = await washingtonRef.update({
     regions: admin.firestore.FieldValue.arrayRemove('east_coast')
   });
-  // [END update_document_array]
+  // [END firestore_data_set_array_operations]
 
   console.log('Update array: ', unionRes, removeRes);
 }
 
 async function updateDocumentIncrement(db) {
-  // [START update_document_increment]
+  // [START firestore_data_set_numeric_increment]
   const admin = require('firebase-admin');
   // ...
   const washingtonRef = db.collection('cities').doc('DC');
@@ -243,7 +243,7 @@ async function updateDocumentIncrement(db) {
   const res = await washingtonRef.update({
     population: admin.firestore.FieldValue.increment(50)
   });
-  // [END update_document_increment]
+  // [END firestore_data_set_numeric_increment]
 
   console.log('Increment: ' + res);
 }
@@ -263,13 +263,13 @@ async function updateDocumentMany(db) {
 }
 
 async function updateCreateIfMissing(db) {
-  // [START update_create_if_missing]
+  // [START firestore_data_set_doc_upsert]
   const cityRef = db.collection('cities').doc('BJ');
 
   const res = await cityRef.set({
     capital: true
   }, { merge: true });
-  // [END update_create_if_missing]
+  // [END firestore_data_set_doc_upsert]
 
   console.log('Update: ', res);
 }
@@ -280,7 +280,7 @@ async function updateServerTimestamp(db) {
   // Create the object before updating it
   await db.collection('objects').doc('some-id').set({});
 
-  // [START update_with_server_timestamp]
+  // [START firestore_data_set_server_timestamp]
   // Get the `FieldValue` object
   const FieldValue = admin.firestore.FieldValue;
 
@@ -291,14 +291,14 @@ async function updateServerTimestamp(db) {
   const res = await docRef.update({
     timestamp: FieldValue.serverTimestamp()
   });
-  // [END update_with_server_timestamp]
+  // [END firestore_data_set_server_timestamp]
 
   console.log('Update: ', res);
 }
 
 async function updateDeleteField(db) {
   const admin = require('firebase-admin');
-  // [START update_delete_field]
+  // [START firestore_data_delete_field]
   // Get the `FieldValue` object
   const FieldValue = admin.firestore.FieldValue;
 
@@ -309,13 +309,13 @@ async function updateDeleteField(db) {
   const res = await cityRef.update({
     capital: FieldValue.delete()
   });
-  // [END update_delete_field]
+  // [END firestore_data_delete_field]
 
   console.log('Update: ', res);
 }
 
 async function updateNested(db) {
-  // [START update_nested]
+  // [START firestore_data_set_nested_fields]
   const initialData = {
     name: 'Frank',
     age: 12,
@@ -333,21 +333,21 @@ async function updateNested(db) {
     age: 13,
     'favorites.color': 'Red'
   });
-  // [END update_nested]
+  // [END firestore_data_set_nested_fields]
 
   console.log('Update: ', res);
 }
 
 async function deleteDocument(db) {
-  // [START delete_document]
+  // [START firestore_data_delete_doc]
   const res = await db.collection('cities').doc('DC').delete();
-  // [END delete_document]
+  // [END firestore_data_delete_doc]
 
   console.log('Delete: ', res);
 }
 
 async function transaction(db) {
-  // [START transaction]
+  // [START firestore_transaction_document_update]
   // Initialize document
   const cityRef = db.collection('cities').doc('SF');
   await cityRef.set({
@@ -373,11 +373,11 @@ async function transaction(db) {
   } catch (e) {
     console.log('Transaction failure:', e);
   }
-  // [END transaction]
+  // [END firestore_transaction_document_update]
 }
 
 async function transactionWithResult(db) {
-  // [START transaction_with_result]
+  // [START firestore_transaction_document_update_conditional]
   const cityRef = db.collection('cities').doc('SF');
   try {
     const res = await db.runTransaction(async t => {
@@ -394,13 +394,13 @@ async function transactionWithResult(db) {
   } catch (e) {
     console.log('Transaction failure:', e);
   }
-  // [END transaction_with_result]
+  // [END firestore_transaction_document_update_conditional]
 
   return transaction;
 }
 
 async function updateBatch(db) {
-  // [START update_data_batch]
+  // [START firestore_data_batch_writes]
   // Get a new write batch
   const batch = db.batch();
 
@@ -418,7 +418,7 @@ async function updateBatch(db) {
 
   // Commit the batch
   await batch.commit();
-  // [END update_data_batch]
+  // [END firestore_data_batch_writes]
 
   console.log('Batched.');
 }
@@ -428,7 +428,7 @@ async function updateBatch(db) {
 // ============================================================================
 
 async function exampleData(db) {
-  // [START example_data]
+  // [START firestore_query_filter_dataset]
   const citiesRef = db.collection('cities');
 
   await citiesRef.doc('SF').set({
@@ -456,11 +456,11 @@ async function exampleData(db) {
     capital: true, population: 21500000,
     regions: ['jingjinji', 'hebei']
   });
-  // [END example_data]
+  // [END firestore_query_filter_dataset]
 }
 
 async function exampleDataTwo(db) {
-  // [START example_data_two]
+  // [START firestore_data_get_dataset]
   const citiesRef = db.collection('cities');
 
   await citiesRef.doc('SF').set({
@@ -483,11 +483,11 @@ async function exampleDataTwo(db) {
     name: 'Beijing', state: null, country: 'China',
     capital: true, population: 21500000
   });
-  // [END example_data_two]
+  // [END firestore_data_get_dataset]
 }
 
 async function getDocument(db) {
-  // [START get_document]
+  // [START firestore_data_get_as_map]
   const cityRef = db.collection('cities').doc('SF');
   const doc = await cityRef.get();
   if (!doc.exists) {
@@ -495,7 +495,7 @@ async function getDocument(db) {
   } else {
     console.log('Document data:', doc.data());
   }
-  // [END get_document]
+  // [END firestore_data_get_as_map]
 }
 
 async function getDocumentEmpty(db) {
@@ -509,7 +509,7 @@ async function getDocumentEmpty(db) {
 }
 
 async function getMultiple(db) {
-  // [START get_multiple]
+  // [START firestore_data_query]
   const citiesRef = db.collection('cities');
   const snapshot = await citiesRef.where('capital', '==', true).get();
   if (snapshot.empty) {
@@ -520,27 +520,27 @@ async function getMultiple(db) {
   snapshot.forEach(doc => {
     console.log(doc.id, '=>', doc.data());
   });
-  // [END get_multiple]
+  // [END firestore_data_query]
 }
 
 async function getAll(db) {
-  // [START get_all]
+  // [START firestore_data_get_all_documents]
   const citiesRef = db.collection('cities');
   const snapshot = await citiesRef.get();
   snapshot.forEach(doc => {
     console.log(doc.id, '=>', doc.data());
   });
-  // [END get_all]
+  // [END firestore_data_get_all_documents]
 }
 
 async function getCollections(db) {
-  // [START get_collections]
+  // [START firestore_data_get_sub_collections]
   const sfRef = db.collection('cities').doc('SF');
   const collections = await sfRef.listCollections();
   collections.forEach(collection => {
     console.log('Found subcollection with id:', collection.id);
   });
-  // [END get_collections]
+  // [END firestore_data_get_sub_collections]
 }
 
 // ============================================================================
@@ -548,13 +548,13 @@ async function getCollections(db) {
 // ============================================================================
 
 async function simpleQuery(db) {
-  // [START simple_query]
+  // [START firestore_query_filter_eq_string]
   // Create a reference to the cities collection
   const citiesRef = db.collection('cities');
 
   // Create a query against the collection
   const queryRef = citiesRef.where('state', '==', 'CA');
-  // [END simple_query]
+  // [END firestore_query_filter_eq_string]
 
   const res = await queryRef.get();
   res.forEach(doc => {
@@ -563,23 +563,23 @@ async function simpleQuery(db) {
 }
 
 async function queryAndFilter(db) {
-  // [START create_query]
+  // [START firestore_query_filter_eq_boolean]
   // Create a reference to the cities collection
   const citiesRef = db.collection('cities');
 
   // Create a query against the collection
   const allCapitalsRes = await citiesRef.where('capital', '==', true).get();
-  // [END create_query]
+  // [END firestore_query_filter_eq_boolean]
 
-  // [START example_filters]
+  // [START firestore_query_filter_single_examples]
   const stateQueryRes = await citiesRef.where('state', '==', 'CA').get();
   const populationQueryRes = await citiesRef.where('population', '<', 1000000).get();
   const nameQueryRes = await citiesRef.where('name', '>=', 'San Francisco').get();
-  // [END example_filters]
+  // [END firestore_query_filter_single_examples]
 
-  // [START simple_query_not_equal]
+  // [START firestore_query_filter_not_eq]
   const capitalNotFalseRes = await citiesRef.where('capital', '!=', false).get();
-  // [END simple_query_not_equal]
+  // [END firestore_query_filter_not_eq]
 
   for (const q of [stateQueryRes, populationQueryRes, nameQueryRes, capitalNotFalseRes]) {
     q.forEach(d => {
@@ -590,38 +590,38 @@ async function queryAndFilter(db) {
 
 async function arrayFilter(db) {
   const citiesRef = db.collection('cities');
-  // [START array_contains_filter]
+  // [START firestore_query_filter_array_contains]
   const westCoastCities = citiesRef.where('regions', 'array-contains',
     'west_coast').get();
-  // [END array_contains_filter]
+  // [END firestore_query_filter_array_contains]
 
   console.log('West Coast get: ', westCoastCities);
 }
 
 async function arrayContainsAnyQueries(db) {
   const citiesRef = db.collection('cities');
-  // [START array_contains_any_filter]
+  // [START firestore_query_filter_array_contains_any]
   const coastalCities = await citiesRef.where('regions', 'array-contains-any',
       ['west_coast', 'east_coast']).get();
-  // [END array_contains_any_filter]
+  // [END firestore_query_filter_array_contains_any]
 
   console.log('Coastal cities get: ', coastalCities);
 }
 
 async function inQueries(db) {
   const citiesRef = db.collection('cities');
-  // [START in_filter]
+  // [START firestore_query_filter_in]
   const usaOrJapan = await citiesRef.where('country', 'in', ['USA', 'Japan']).get();
-  // [END in_filter]
+  // [END firestore_query_filter_in]
 
-  // [START not_in_filter]
+  // [START firestore_query_filter_not_in]
   const notUsaOrJapan = await citiesRef.where('country', 'not-in', ['USA', 'Japan']).get();
-  // [END not_in_filter]
+  // [END firestore_query_filter_not_in]
 
-  // [START in_filter_with_array]
+  // [START firestore_query_filter_in_with_array]
   const exactlyOneCoast = await citiesRef.where('region', 'in',
       [['west_coast', 'east_coast']]).get();
-  // [END in_filter_with_array]
+  // [END firestore_query_filter_in_with_array]
 
   console.log('USA or Japan get: ', usaOrJapan);
   console.log('Not USA or Japan get: ', notUsaOrJapan);
@@ -630,22 +630,22 @@ async function inQueries(db) {
 
 async function orderAndLimit(db) {
   const citiesRef = db.collection('cities');
-  // [START order_limit]
+  // [START firestore_query_order_limit]
   const firstThreeRes = await citiesRef.orderBy('name').limit(3).get();
-  // [END order_limit]
+  // [END firestore_query_order_limit]
 
-  // [START order_limit_desc]
+  // [START firestore_query_order_desc_limit]
   const lastThreeRes = await citiesRef.orderBy('name', 'desc').limit(3).get();
-  // [END order_limit_desc]
+  // [END firestore_query_order_desc_limit]
 
-  // [START order_multi_field]
+  // [START firestore_query_order_multi]
   const byStateByPopRes = await citiesRef.orderBy('state').orderBy('population', 'desc').get();
-  // [END order_multi_field]
+  // [END firestore_query_order_multi]
 
-  // [START where_and_order]
+  // [START firestore_query_order_limit_field_valid]
   const biggestRes = await citiesRef.where('population', '>', 2500000)
     .orderBy('population').limit(2).get();
-  // [END where_and_order]
+  // [END firestore_query_order_limit_field_valid]
 
   for (const res of [firstThreeRes, lastThreeRes, byStateByPopRes, biggestRes]) {
     res.forEach(d => {
@@ -657,34 +657,34 @@ async function orderAndLimit(db) {
 async function validInvalidQueries(db) {
   const citiesRef = db.collection('cities');
 
-  // [START valid_chained]
+  // [START firestore_query_filter_compound_multi_eq]
   citiesRef.where('state', '==', 'CO').where('name', '==', 'Denver');
-  // [END valid_chained]
+  // [END firestore_query_filter_compound_multi_eq]
 
-  // [START invalid_chained]
+  // [START firestore_query_filter_compound_multi_eq]
   citiesRef.where('state', '==', 'CA').where('population', '<', 1000000);
-  // [END invalid_chained]
+  // [END firestore_query_filter_compound_multi_eq]
 
-  // [START valid_range]
+  // [START firestore_query_filter_range_valid]
   citiesRef.where('state', '>=', 'CA').where('state', '<=', 'IN');
   citiesRef.where('state', '==', 'CA').where('population', '>', 1000000);
-  // [END valid_range]
+  // [END firestore_query_filter_range_valid]
 
-  // [START invalid_range]
+  // [START firestore_query_filter_range_invalid]
   citiesRef.where('state', '>=', 'CA').where('population', '>', 1000000);
-  // [END invalid_range]
+  // [END firestore_query_filter_range_invalid]
 
-  // [START valid_order_by]
+  // [START firestore_query_order_with_filter]
   citiesRef.where('population', '>', 2500000).orderBy('population');
-  // [END valid_order_by]
+  // [END firestore_query_order_with_filter]
 
-  // [START invalid_order_by]
+  // [START firestore_query_order_field_invalid]
   citiesRef.where('population', '>', 2500000).orderBy('country');
-  // [END invalid_order_by]
+  // [END firestore_query_order_field_invalid]
 }
 
 async function streamSnapshot(db, done) {
-  // [START query_realtime]
+  // [START firestore_listen_query_snapshots]
   const query = db.collection('cities').where('state', '==', 'CA');
 
   const observer = query.onSnapshot(querySnapshot => {
@@ -696,11 +696,11 @@ async function streamSnapshot(db, done) {
   }, err => {
     console.log(`Encountered error: ${err}`);
   });
-  // [END query_realtime]
+  // [END firestore_listen_query_snapshots]
 }
 
 async function listenDiffs(db, done) {
-  // [START listen_diffs]
+  // [START firestore_listen_query_changes]
   const observer = db.collection('cities').where('state', '==', 'CA')
     .onSnapshot(querySnapshot => {
       querySnapshot.docChanges().forEach(change => {
@@ -719,11 +719,11 @@ async function listenDiffs(db, done) {
       done();
       // [END_EXCLUDE]
     });
-  // [END listen_diffs]
+  // [END firestore_listen_query_changes]
 }
 
 async function streamDocument(db, done) {
-  // [START doc_realtime]
+  // [START firestore_listen_document]
   const doc = db.collection('cities').doc('SF');
 
   const observer = doc.onSnapshot(docSnapshot => {
@@ -735,11 +735,11 @@ async function streamDocument(db, done) {
   }, err => {
     console.log(`Encountered error: ${err}`);
   });
-  // [END doc_realtime]
+  // [END firestore_listen_document]
 }
 
 async function detatchListener(db) {
-  // [START detach_listener]
+  // [START firestore_listen_detach]
   const unsub = db.collection('cities').onSnapshot(() => {
   });
 
@@ -747,22 +747,22 @@ async function detatchListener(db) {
 
   // Stop listening for changes
   unsub();
-  // [END detach_listener]
+  // [END firestore_listen_detach]
 }
 
 async function listenErrors(db) {
-  // [START listen_errors]
+  // [START firestore_listen_handle_error]
   db.collection('cities')
     .onSnapshot((snapshot) => {
       //...
     }, (error) => {
       //...
     });
-  // [END listen_errors]
+  // [END firestore_listen_handle_error]
 }
 
 async function collectionGroupQuery(db) {
-  // [START fs_collection_group_query_data_setup]
+  // [START firestore_query_collection_group_dataset]
   const citiesRef = db.collection('cities');
 
   await citiesRef.doc('SF').collection('landmarks').doc().set({
@@ -805,14 +805,14 @@ async function collectionGroupQuery(db) {
     name: 'Beijing Ancient Observatory',
     type: 'museum'
   });
-  // [END fs_collection_group_query_data_setup]
+  // [END firestore_query_collection_group_dataset]
 
-  // [START fs_collection_group_query]
+  // [START firestore_query_collection_group_filter_eq]
   const querySnapshot = await db.collectionGroup('landmarks').where('type', '==', 'museum').get();
   querySnapshot.forEach((doc) => {
     console.log(doc.id, ' => ', doc.data());
   });
-  // [END fs_collection_group_query]
+  // [END firestore_query_collection_group_filter_eq]
 }
 
 // ============================================================================
@@ -820,23 +820,23 @@ async function collectionGroupQuery(db) {
 // ============================================================================
 
 async function simpleCursors(db) {
-  // [START cursor_simple_start_at]
+  // [START firestore_query_cursor_start_at_field_value_single]
   const startAtRes = await db.collection('cities')
     .orderBy('population')
     .startAt(1000000)
     .get();
-  // [END cursor_simple_start_at]
+  // [END firestore_query_cursor_start_at_field_value_single]
 
-  // [START cursor_simple_end_at]
+  // [START firestore_query_cursor_end_at_field_value_single]
   const endAtRes = await db.collection('cities')
     .orderBy('population')
     .endAt(1000000)
     .get();
-  // [END cursor_simple_end_at]
+  // [END firestore_query_cursor_end_at_field_value_single]
 }
 
 async function snapshotCursors(db) {
-  // [START fs_start_at_snapshot_query_cursor]
+  // [START firestore_query_cursor_start_at_document]
   const docRef = db.collection('cities').doc('SF');
   const snapshot = await docRef.get();
   const startAtSnapshot = db.collection('cities')
@@ -844,11 +844,11 @@ async function snapshotCursors(db) {
     .startAt(snapshot);
 
   await startAtSnapshot.limit(10).get();
-  // [END fs_start_at_snapshot_query_cursor]
+  // [END firestore_query_cursor_start_at_document]
 }
 
 async function paginateQuery(db) {
-  // [START cursor_paginate]
+  // [START firestore_query_cursor_pagination]
   const first = db.collection('cities')
     .orderBy('population')
     .limit(3);
@@ -871,30 +871,28 @@ async function paginateQuery(db) {
   const nextSnapshot = await next.get();
   console.log('Num results:', nextSnapshot.docs.length);
   // [END_EXCLUDE]
-  // [END cursor_paginate]
+  // [END firestore_query_cursor_pagination]
 }
 
 async function multipleCursorConditions(db) {
-  // [START cursor_multiple_one_start]
+  // [START firestore_query_cursor_start_at_field_value_multi]
   // Will return all Springfields
   const startAtNameRes = await db.collection('cities')
     .orderBy('name')
     .orderBy('state')
     .startAt('Springfield')
     .get();
-  // [END cursor_multiple_one_start]
 
-  // [START cursor_multiple_two_start]
   // Will return 'Springfield, Missouri' and 'Springfield, Wisconsin'
   const startAtNameAndStateRes = await db.collection('cities')
     .orderBy('name')
     .orderBy('state')
     .startAt('Springfield', 'Missouri')
     .get();
-  // [END cursor_multiple_two_start]
+  // [END firestore_query_cursor_start_at_field_value_multi]
 }
 
-// [START delete_collection]
+// [START firestore_data_delete_collection]
 async function deleteCollection(db, collectionPath, batchSize) {
   const collectionRef = db.collection(collectionPath);
   const query = collectionRef.orderBy('__name__').limit(batchSize);
@@ -928,7 +926,7 @@ async function deleteQueryBatch(db, query, resolve) {
   });
 }
 
-// [END delete_collection]
+// [END firestore_data_delete_collection]
 
 // ============================================================================
 // MAIN
